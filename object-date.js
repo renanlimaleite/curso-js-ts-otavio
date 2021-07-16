@@ -57,3 +57,22 @@ function formatDate(date) {
 const date = new Date()
 const dataBrasil = formatDate(date)
 console.log('Function formatDate: ', dataBrasil)
+
+function criaHoraDosSegundos(segundos) {
+  const data = new Date(segundos * 1000); // * 1000 porque precisa ser em ms
+  return data.toLocaleTimeString('pt-BR', {
+    hour12: false,
+    timeZone: 'UTC'
+  });
+}
+
+let seconds = 0
+
+function iniciarRelogio() {
+  const timer = setInterval(() => {
+    seconds++
+    console.log(criaHoraDosSegundos(seconds))
+  }, 1000)
+}
+
+iniciarRelogio()
