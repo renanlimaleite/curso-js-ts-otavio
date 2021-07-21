@@ -51,3 +51,17 @@ console.log('--- Interando pegando valores')
 for (const pessoas of novasPessoas.values()) {
   console.log(pessoas)
 }
+
+const pessoas2 = [
+  { id: 3, nome: 'João' },
+  { id: 2, nome: 'Helena' },
+  { id: 1, nome: 'Maria' },
+]
+
+const novas = pessoas2.map(pessoa => {
+  const { id } = pessoa
+  return {
+    [id]: pessoa
+  }
+})
+console.log(novas.map(item => parseInt(item)))
