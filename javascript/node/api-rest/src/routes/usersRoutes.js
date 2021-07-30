@@ -5,11 +5,13 @@ import userController from '../controllers/UserController'
 
 const router = new Router()
 
-router.post('/', userController.store)
-router.get('/', loginRequired, userController.index)
-router.get('/:id', userController.show)
-router.put('/:id', userController.update)
-router.delete('/:id', userController.delete)
+// Não deveriam existir
+router.get('/', loginRequired, userController.index) // Lista usuário
+router.get('/:id', userController.show) // Lista usuário
+
+router.post('/', userController.store) // Não precisamos de token aqui, porque o acesso é global.
+router.put('/', loginRequired, userController.update) // Somente logado.
+router.delete('/', loginRequired, userController.delete) // Somento logado.
 
 export default router
 
