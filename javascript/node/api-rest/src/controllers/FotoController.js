@@ -14,16 +14,20 @@ class FotoController {
         })
       }
 
-      const { originalname, filename } = req.file
-      const { aluno_id } = req.body
+      try {
+        const { originalname, filename } = req.file
+        const { aluno_id } = req.body
 
-      const foto = await Foto.create({
-        originalname,
-        filename,
-        aluno_id
-      })
+        const foto = await Foto.create({
+          originalname,
+          filename,
+          aluno_id
+        })
 
-      return res.json(foto)
+        return res.status(200).json(foto)
+      } catch (e) {
+        return res.status(400).json({ errors: ['Aluno inexistente'] })
+      }
     })
   }
 }

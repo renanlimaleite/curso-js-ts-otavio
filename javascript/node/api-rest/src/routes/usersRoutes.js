@@ -9,7 +9,7 @@ const router = new Router()
 router.get('/', loginRequired, userController.index) // Lista usuário
 router.get('/:id', userController.show) // Lista usuário
 
-router.post('/', userController.store) // Não precisamos de token aqui, porque o acesso é global.
+router.post('/', loginRequired, userController.store) // Não precisamos de token aqui, porque o acesso é global.
 router.put('/', loginRequired, userController.update) // Somente logado.
 router.delete('/', loginRequired, userController.delete) // Somento logado.
 
