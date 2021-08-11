@@ -9,7 +9,7 @@ import { Home } from '../Pages/Home'
 export function Routes() {
   return (
     <Switch>
-      <MyRoute exact path="/" component={Home} isClosed />
+      <MyRoute exact path="/" component={Home} />
       <MyRoute path="/login" component={Login} />
       <MyRoute path="*" component={Page404} />
     </Switch>
