@@ -1,11 +1,11 @@
 import React from 'react'
-import { Title } from './styles'
+
 import { Container } from '../../styles/GlobalStyles'
 
-export const Login = () => {
+export function Home() {
   return (
     <Container>
-      <Title>LOGIN</Title>
+      <h1>Home</h1>
     </Container>
   )
 }
