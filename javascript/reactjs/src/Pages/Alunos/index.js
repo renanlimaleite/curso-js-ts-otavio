@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Container } from '../../styles/GlobalStyles'
 import { FaUserCircle, FaEdit, FaWindowClose } from 'react-icons/fa'
 
-import axios from '../../services/axios'
+import api from '../../services/axios'
 import { AlunoContainer, ProfilePicture } from './styles'
 import { Link } from 'react-router-dom'
 
@@ -11,7 +11,7 @@ export const Alunos = () => {
 
   useEffect(() => {
     async function getData() {
-      const response = await axios.get('/alunos')
+      const response = await api.get('/alunos')
       setAlunos(response.data)
     }
 
@@ -34,11 +34,11 @@ export const Alunos = () => {
             <span>{aluno.nome}</span>
             <span>{aluno.email}</span>
 
-            <Link to={`/alunos/${aluno.id}/edit`}>
+            <Link to={`/aluno/${aluno.id}/edit`}>
               <FaEdit size={16} />
             </Link>
 
-            <Link to={`/alunos/${aluno.id}/delete`}>
+            <Link to={`/aluno/${aluno.id}/delete`}>
               <FaWindowClose size={16} />
             </Link>
           </div>

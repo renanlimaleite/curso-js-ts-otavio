@@ -4,7 +4,7 @@ import { toast } from 'react-toastify'
 import { isEmail } from 'validator'
 import { Container } from '../../styles/GlobalStyles'
 import * as S from './styles'
-import axios from '../../services/axios'
+import api from '../../services/axios'
 
 export const Register = () => {
   const history = useHistory()
@@ -50,7 +50,7 @@ export const Register = () => {
       if (formsErrors) return
 
       try {
-        await axios.post('/users', {
+        await api.post('/users', {
           nome: inputs.nome,
           password: inputs.password,
           email: inputs.email
