@@ -1,6 +1,7 @@
 import { persistStore } from 'redux-persist'
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 import rootReducer from './modules/rootReducer'
 import rootSaga from './modules/rootSaga'
@@ -11,7 +12,7 @@ const sagaMiddlewares = createSagaMiddleware()
 
 const store = createStore(
   persistedReducers(rootReducer),
-  applyMiddleware(sagaMiddlewares)
+  composeWithDevTools(applyMiddleware(sagaMiddlewares))
 )
 
 sagaMiddlewares.run(rootSaga)

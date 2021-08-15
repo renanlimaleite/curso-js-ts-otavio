@@ -5,14 +5,18 @@ import { FaUserCircle, FaEdit, FaWindowClose } from 'react-icons/fa'
 import api from '../../services/axios'
 import { AlunoContainer, ProfilePicture } from './styles'
 import { Link } from 'react-router-dom'
+import Loading from '../../components/Loading'
 
 export const Alunos = () => {
+  const [isLoading, setIsLoading] = useState(false)
   const [alunos, setAlunos] = useState([])
 
   useEffect(() => {
+    setIsLoading(true)
     async function getData() {
       const response = await api.get('/alunos')
       setAlunos(response.data)
+      setIsLoading(false)
     }
 
     getData()
@@ -20,6 +24,7 @@ export const Alunos = () => {
 
   return (
     <Container>
+      <Loading isLoading={isLoading} />
       <h1>Alunos</h1>
       <AlunoContainer>
         {alunos.map((aluno) => (

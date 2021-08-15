@@ -1,14 +1,17 @@
 import React, { useCallback, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Container } from '../../styles/GlobalStyles'
 import { Form } from './styles'
 import { toast } from 'react-toastify'
 import { isEmail } from 'validator'
 import * as actions from '../../store/modules/auth/actions'
+import Loading from '../../components/Loading'
 
 export const Login = ({ location }) => {
   const dispatch = useDispatch()
+
+  const isLoading = useSelector((state) => state.auth.isLoading)
 
   const prevPath = location?.state?.prevPath ?? '/'
 
@@ -62,6 +65,7 @@ export const Login = ({ location }) => {
 
   return (
     <Container>
+      <Loading isLoading={isLoading} />
       <h1>Login</h1>
       <Form onSubmit={handleSubmit}>
         <input

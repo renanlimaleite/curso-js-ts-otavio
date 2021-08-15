@@ -5,10 +5,11 @@ import { isEmail } from 'validator'
 import { Container } from '../../styles/GlobalStyles'
 import * as S from './styles'
 import api from '../../services/axios'
+import Loading from '../../components/Loading'
 
 export const Register = () => {
   const history = useHistory()
-
+  const [isLoading, setIsLoading] = useState(false)
   const [formsErrors, setFormsErrors] = useState(false)
 
   const [inputs, setInputs] = useState({
@@ -49,6 +50,8 @@ export const Register = () => {
 
       if (formsErrors) return
 
+      setIsLoading(true)
+
       try {
         await api.post('/users', {
           nome: inputs.nome,
@@ -58,12 +61,16 @@ export const Register = () => {
 
         toast.success('Você fez seu cadastro')
 
+        setIsLoading(false)
+
         history.push('/login')
       } catch (e) {
         // const status = e.response.status
         const errors = e.response.data.erros
 
         errors.map((error) => toast.error(error))
+
+        setIsLoading(false)
       }
     },
     [inputs, formsErrors, history]
@@ -71,6 +78,7 @@ export const Register = () => {
 
   return (
     <Container>
+      <Loading isLoading={isLoading} />
       <h1>Crie sua conta</h1>
       <S.Form onSubmit={handleSubmit}>
         <label htmlFor="nome">
