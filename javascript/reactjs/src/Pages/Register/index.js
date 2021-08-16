@@ -1,15 +1,21 @@
-import React, { useState, useCallback } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useState, useCallback, useEffect } from 'react'
 import { toast } from 'react-toastify'
+import { useSelector, useDispatch } from 'react-redux'
 import { isEmail } from 'validator'
 import { Container } from '../../styles/GlobalStyles'
 import * as S from './styles'
-import api from '../../services/axios'
+import * as actions from '../../store/modules/auth/actions'
+
 import Loading from '../../components/Loading'
 
 export const Register = () => {
-  const history = useHistory()
-  const [isLoading, setIsLoading] = useState(false)
+  const dispatch = useDispatch()
+
+  const id = useSelector((state) => state.auth.user.id)
+  const nomeStoraged = useSelector((state) => state.auth.user.nome)
+  const emailStoraged = useSelector((state) => state.auth.user.email)
+  const isLoading = useSelector((state) => state.auth.isLoading)
+
   const [formsErrors, setFormsErrors] = useState(false)
 
   const [inputs, setInputs] = useState({
@@ -17,6 +23,12 @@ export const Register = () => {
     email: '',
     password: ''
   })
+
+  useEffect(() => {
+    if (!id) return
+    setInputs((prevState) => ({ ...prevState, nome: nomeStoraged }))
+    setInputs((prevState) => ({ ...prevState, email: emailStoraged }))
+  }, [id, emailStoraged, nomeStoraged])
 
   const handleInputs = useCallback(
     (e) => {
@@ -43,43 +55,29 @@ export const Register = () => {
         toast.error('E-mail deve ser válido')
       }
 
-      if (inputs.password.length < 3 || inputs.password.length > 255) {
+      if (!id && (inputs.password.length < 3 || inputs.password.length > 255)) {
         setFormsErrors(true)
         toast.error('Senha deve ter entre 3 e 255 caracteres')
       }
 
       if (formsErrors) return
 
-      setIsLoading(true)
-
-      try {
-        await api.post('/users', {
-          nome: inputs.nome,
-          password: inputs.password,
-          email: inputs.email
-        })
-
-        toast.success('Você fez seu cadastro')
-
-        setIsLoading(false)
-
-        history.push('/login')
-      } catch (e) {
-        // const status = e.response.status
-        const errors = e.response.data.erros
-
-        errors.map((error) => toast.error(error))
-
-        setIsLoading(false)
+      const payload = {
+        id,
+        nome: inputs.nome,
+        email: inputs.email,
+        password: inputs.password
       }
+
+      dispatch(actions.registerRequest(payload))
     },
-    [inputs, formsErrors, history]
+    [inputs, formsErrors, id, dispatch]
   )
 
   return (
     <Container>
       <Loading isLoading={isLoading} />
-      <h1>Crie sua conta</h1>
+      <h1>{id ? 'Editar dados' : 'Crie sua conta'}</h1>
       <S.Form onSubmit={handleSubmit}>
         <label htmlFor="nome">
           Nome
@@ -112,7 +110,7 @@ export const Register = () => {
           />
         </label>
 
-        <button type="submit">Criar Conta</button>
+        <button type="submit">Salvar</button>
       </S.Form>
     </Container>
   )

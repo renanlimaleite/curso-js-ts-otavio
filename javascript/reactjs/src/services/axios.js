@@ -16,7 +16,6 @@ function getToken() {
 api.interceptors.request.use((config) => {
   const token = getToken()
   if (token) {
-    console.log('tem token')
     config.headers.Authorization = `Bearer ${token}`
   } else {
     console.log('oi')

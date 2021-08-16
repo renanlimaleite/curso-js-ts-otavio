@@ -34,7 +34,38 @@ function* loginRequestSaga({ payload }) {
 //   api.defaults.headers.Authorization = `Bearer ${token}`
 // }
 
+function* registerRequestSaga({ payload }) {
+  const { id, nome, email, password } = payload
+
+  try {
+    if (id) {
+      // Update
+      yield call(api.put, '/users', {
+        email,
+        nome,
+        password: password || undefined
+      })
+      toast.success('Conta alterada com sucesso')
+      yield put(actions.registerSuccess({ nome, email, password }))
+    } else {
+      // Register 14:32
+    }
+  } catch (e) {
+    const errors = e.response.data.erros
+    // const status = e?.response?.status ?? 0
+
+    if (errors.length > 0) {
+      errors.map((error) => toast.error(error))
+    } else {
+      toast.error('Erro interno')
+    }
+
+    yield put(actions.registerFailured())
+  }
+}
+
 export default all([
-  takeLatest(types.LOGIN_REQUEST, loginRequestSaga)
+  takeLatest(types.LOGIN_REQUEST, loginRequestSaga),
+  takeLatest(types.REGISTER_REQUEST, registerRequestSaga)
   // takeLatest(types.PERSIST_REHYDRATE, persistRehydrateSaga)
 ])
