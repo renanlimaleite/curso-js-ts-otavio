@@ -25,5 +25,7 @@ let pessoa: { nome: string, idade: number, adulto?: boolean } = {
 function soma(x: number, y: number) {
   return x + y
 }
+// Arrow
+const soma2: (x: number, y: number) => number = (x, y) => x + y
 
 const result = soma(2, 2)
