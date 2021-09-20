@@ -8,6 +8,7 @@
     "build:back": "tsc"
   },
   "devDependencies": {
+    "@types/validator": "^13.6.3",
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.29.3",
     "eslint": "^7.32.0",
@@ -21,6 +22,7 @@
     "webpack-cli": "^4.8.0"
   },
   "dependencies": {
-    "@types/node": "^16.7.4"
+    "@types/node": "^16.7.4",
+    "validator": "^13.6.0"
   }
 }
